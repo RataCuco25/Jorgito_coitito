@@ -74,7 +74,7 @@ Create a ROS 2 workspace and clone this repository into the `src` directory:
 ```bash
 mkdir -p ~/workspaces_/sm26_ws/src
 cd ~/workspaces_/sm26_ws/src
-git clone <YOUR_GITHUB_REPOSITORY_URL>
+git clone https://github.com/RataCuco25/Jorgito_coitito.git
 ```
 
 Install dependencies:
