@@ -11,7 +11,7 @@
     RGB-D camera, LiDAR and IMU sensors for Gazebo Harmonic and ROS 2 Jazzy.
   </description>
 
-  <maintainer email="luish@todo.todo">luish</maintainer>
+  <maintainer email="luishector.m.delrazo25@gmail.com">Luis Héctor Muñoz Del Razo</maintainer>
   <license>Apache-2.0</license>
 
   <!-- Build system -->
