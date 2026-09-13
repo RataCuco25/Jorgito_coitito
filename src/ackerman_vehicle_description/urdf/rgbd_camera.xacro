@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:property name="rgbd_size"   value="0.03"/>
+    <xacro:property name="rgbd_mass"   value="0.05"/>
+    <xacro:property name="rgbd_width"  value="640"/>
+    <xacro:property name="rgbd_height" value="480"/>
+    <xacro:property name="rgbd_hfov"   value="1.4"/>
+    <xacro:property name="rgbd_rate"   value="15"/>
+
+    <link name="rgbd_camera_link">
+        <visual>
+            <geometry>
+                <box size="${rgbd_size} ${rgbd_size} ${rgbd_size}"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+
+        <collision>
+            <geometry>
+                <box size="${rgbd_size} ${rgbd_size} ${rgbd_size}"/>
+            </geometry>
+        </collision>
+
+        <xacro:box_inertia
+            m="${rgbd_mass}"
+            l="${rgbd_size}"
+            w="${rgbd_size}"
+            h="${rgbd_size}"/>
+    </link>
+
+    <joint name="rgbd_camera_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="rgbd_camera_link"/>
+        <origin
+            xyz="${chasis_length/2} 0 ${chasis_height/2 + rgbd_size/2}"
+            rpy="0 0 0"/>
+    </joint>
+
+    <gazebo reference="rgbd_camera_link">
+        <sensor name="rgbd_camera_sensor" type="rgbd_camera">
+            <gz_frame_id>rgbd_camera_link</gz_frame_id>
+            <pose>0 0 0 0 0 0</pose>
+
+            <topic>rgbd_camera</topic>
+
+            <update_rate>${rgbd_rate}</update_rate>
+            <always_on>true</always_on>
+            <visualize>true</visualize>
+
+            <camera>
+                <horizontal_fov>${rgbd_hfov}</horizontal_fov>
+
+                <image>
+                    <width>${rgbd_width}</width>
+                    <height>${rgbd_height}</height>
+                    <format>R8G8B8</format>
+                </image>
+
+                <clip>
+                    <near>0.05</near>
+                    <far>15.0</far>
+                </clip>
+
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.007</stddev>
+                </noise>
+            </camera>
+        </sensor>
+    </gazebo>
+
+</robot>

@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:property name="csi_cam_size"   value="0.02"/>
+    <xacro:property name="csi_cam_mass"   value="0.02"/>
+    <xacro:property name="csi_cam_width"  value="640"/>
+    <xacro:property name="csi_cam_height" value="480"/>
+    <xacro:property name="csi_cam_hfov"   value="1.4"/>
+    <xacro:property name="csi_cam_rate"   value="15"/>
+
+    <xacro:macro name="csi_camera" params="prefix x_off y_off yaw">
+
+        <link name="camera_${prefix}">
+            <visual>
+                <geometry>
+                    <box size="${csi_cam_size} ${csi_cam_size} ${csi_cam_size}"/>
+                </geometry>
+                <material name="black"/>
+            </visual>
+
+            <collision>
+                <geometry>
+                    <box size="${csi_cam_size} ${csi_cam_size} ${csi_cam_size}"/>
+                </geometry>
+            </collision>
+
+            <xacro:box_inertia
+                m="${csi_cam_mass}"
+                l="${csi_cam_size}"
+                w="${csi_cam_size}"
+                h="${csi_cam_size}"/>
+        </link>
+
+        <joint name="camera_${prefix}_joint" type="fixed">
+            <parent link="base_link"/>
+            <child link="camera_${prefix}"/>
+            <origin
+                xyz="${x_off} ${y_off} ${chasis_height/2 + csi_cam_size/2}"
+                rpy="0 0 ${yaw}"/>
+        </joint>
+
+        <gazebo reference="camera_${prefix}">
+            <sensor name="camera_${prefix}_sensor" type="camera">
+                <gz_frame_id>camera_${prefix}</gz_frame_id>
+
+                <pose>0 0 0 0 0 0</pose>
+
+                <topic>camera_${prefix}</topic>
+                <update_rate>${csi_cam_rate}</update_rate>
+                <always_on>true</always_on>
+                <visualize>false</visualize>
+
+                <camera>
+                    <horizontal_fov>${csi_cam_hfov}</horizontal_fov>
+
+                    <image>
+                        <width>${csi_cam_width}</width>
+                        <height>${csi_cam_height}</height>
+                        <format>R8G8B8</format>
+                    </image>
+
+                    <clip>
+                        <near>0.05</near>
+                        <far>15.0</far>
+                    </clip>
+
+                    <noise>
+                        <type>gaussian</type>
+                        <mean>0.0</mean>
+                        <stddev>0.007</stddev>
+                    </noise>
+                </camera>
+            </sensor>
+        </gazebo>
+
+    </xacro:macro>
+
+    <xacro:csi_camera
+        prefix="front"
+        x_off="${chasis_length/2}"
+        y_off="0"
+        yaw="0"/>
+
+    <xacro:csi_camera
+        prefix="rear"
+        x_off="${-chasis_length/2}"
+        y_off="0"
+        yaw="3.1416"/>
+
+    <xacro:csi_camera
+        prefix="left"
+        x_off="0"
+        y_off="${chasis_width/2}"
+        yaw="1.5708"/>
+
+    <xacro:csi_camera
+        prefix="right"
+        x_off="0"
+        y_off="${-chasis_width/2}"
+        yaw="-1.5708"/>
+
+</robot>

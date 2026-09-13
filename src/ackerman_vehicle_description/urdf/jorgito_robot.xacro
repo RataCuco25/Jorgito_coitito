@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="Jorgito_coitito">
+    <xacro:include filename="jorgito_description.xacro"/>
+    <xacro:include filename="lidar.xacro"/>
+    <xacro:include filename="cameras.xacro"/>
+    <xacro:include filename="imu.xacro"/>   
+    <xacro:include filename="rgbd_camera.xacro"/>
+    <xacro:include filename="jorgito_gazebo.xacro"/>
+</robot>
