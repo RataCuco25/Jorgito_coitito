@@ -39,9 +39,20 @@
                 rpy="0 0 ${yaw}"/>
         </joint>
 
+        <!-- Optical frame following ROS camera conventions -->
+        <link name="camera_${prefix}_optical_frame"/>
+
+        <joint name="camera_${prefix}_optical_joint" type="fixed">
+            <parent link="camera_${prefix}"/>
+            <child link="camera_${prefix}_optical_frame"/>
+            <origin
+                xyz="0 0 0"
+                rpy="-1.5708 0 -1.5708"/>
+        </joint>
+
         <gazebo reference="camera_${prefix}">
             <sensor name="camera_${prefix}_sensor" type="camera">
-                <gz_frame_id>camera_${prefix}</gz_frame_id>
+                <gz_frame_id>camera_${prefix}_optical_frame</gz_frame_id>
 
                 <pose>0 0 0 0 0 0</pose>
 
@@ -52,6 +63,8 @@
 
                 <camera>
                     <horizontal_fov>${csi_cam_hfov}</horizontal_fov>
+
+                    <camera_info_topic>camera_${prefix}/camera_info</camera_info_topic>
 
                     <image>
                         <width>${csi_cam_width}</width>
