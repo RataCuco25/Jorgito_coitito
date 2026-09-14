@@ -1,4 +1,4 @@
-# Jorgito Coitito — ROS 2 Ackermann Rover
+# Jorgito Carrito — ROS 2 Ackermann Rover
 
 Simulation and description package for an Ackermann-steering mobile rover using **ROS 2 Jazzy** and **Gazebo Harmonic**.
 
